@@ -1,0 +1,43 @@
+package com.example.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.model.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> getAllUsers() {
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void addUser(User user) {
+        entityManager.persist(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = entityManager.find(User.class, id);
+        if (user != null) {
+            entityManager.remove(user);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        entityManager.merge(user);
+    }
+}
