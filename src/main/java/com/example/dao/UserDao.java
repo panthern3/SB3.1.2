@@ -1,10 +1,10 @@
-package com.example.service;
+package com.example.dao;
 
 import com.example.model.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserDao {
     List<User> getAllUsers();
     void addUser(User user);
     void deleteUser(Long id);
